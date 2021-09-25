@@ -46,7 +46,7 @@ class Order < ActiveRecord::Base
             })
         end
         end
-        #OrdersHelper.send_mail(params[:email],order.id);
+        OrdersHelper.send_mail(params[:email],order.id);
         order.update!(status:'completed');
         order
         rescue => e
