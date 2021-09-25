@@ -23,7 +23,7 @@ Listing Page functionalities :
 
 API - GET http://localhost:3000/api/v1/product/listing/?page=2&limit=5
 
-Sample Output :
+Output :
 
 {
     "code": true,
@@ -74,7 +74,7 @@ Cart functionalities
 * Get cart details : GET http://localhost:3000/api/v1/cart/1?cart_id=1
 * Remove item from cart : DELETE http://localhost:3000/api/v1/cart/17/FTWWEONKLP000060?cart_id=17&sku=FTWWEONKLP000060
 
-Sample output :
+Output :
 
 {
     "code": true,
@@ -113,7 +113,7 @@ Order details :
 
 * Creating order and sending mail : localhost:3000/api/v1/order?cart_id=20&email=test@gmail.com&customer_name=savitha&payment_mode=COD
 
-Sample output :
+Output :
 
 {
     "code": true,
