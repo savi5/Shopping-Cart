@@ -1,0 +1,36 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+default: &default
+  adapter: mysql2
+  pool: 5
+  encoding: utf8
+  timeout: 5000
+  username: root
+  password: 123456
+  host: localhost
+
+
+development:
+  <<: *default
+  database: biba_development
+
+ 
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: biba_development_test
+  username: test_username
+  password: test_pass
+  host: biba_test
+  
+production:
+  <<: *default
+  username: production_username
+  password: produciton_pass
+  host: biba_production

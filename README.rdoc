@@ -1,0 +1,284 @@
+Create database biba_development in local
+
+Command line execution inside project folder /biba-api : 
+
+-> bundle install
+-> rake db:migrate
+-> rake db:seed
+
+Start rails server
+
+-> rails s 
+
+Find routes created using grape
+
+-> rake grape:routes
+
+Postman execution after server is started :
+
+
+Listing Page functionalities :
+
+* Listing page with pagination taken 5 as products per page can be changed as altering limit param.
+
+API - GET http://localhost:3000/api/v1/product/listing/?page=2&limit=5
+
+Sample Output :
+
+{
+    "code": true,
+    "message": "Products fetched successfully",
+    "listing": [
+        {
+            "name": "Off White Front Open Art Silk Dress",
+            "sku": "TFFEONKLP000060",
+            "description": "YelOff White Front Open Art Silk Dress",
+            "price": 1999.0,
+            "image_url": "http://image4.jpg"
+        },
+        {
+            "name": "Off White Cotton Tiered Dress",
+            "sku": "BFFYEONKLP000060",
+            "description": "Off White Cotton Tiered Dress",
+            "price": 2799.0,
+            "image_url": "http://image5.jpg"
+        },
+        {
+            "name": "Maroon Cotton Tiered Dress",
+            "sku": "KT09EONKLP000060",
+            "description": "Maroon Cotton Tiered Dress",
+            "price": 799.0,
+            "image_url": "http://image6.jpg"
+        },
+        {
+            "name": "Red Cotton Fusion Dress",
+            "sku": "RE02EONKLP000060",
+            "description": "Red Cotton Fusion Dress",
+            "price": 3799.0,
+            "image_url": "http://image7.jpg"
+        },
+        {
+            "name": "Yellow Formal Kolhapur Slipper",
+            "sku": "FTWWEONKLP000060",
+            "description": "Yellow Formal Kolhapur Slipper",
+            "price": 799.0,
+            "image_url": "http://image8.jpg"
+        }
+    ]
+}
+
+Cart functionalities 
+
+* Create new cart : POST http://localhost:3000/api/v1/cart?sku=SKDIKATBAG7483AW
+* Add item to existing cart : POST http://localhost:3000/api/v1/cart?sku=FTWWEONKLP000060&cart_id=1
+* Get cart details : GET http://localhost:3000/api/v1/cart/1?cart_id=1
+* Remove item from cart : DELETE http://localhost:3000/api/v1/cart/17/FTWWEONKLP000060?cart_id=17&sku=FTWWEONKLP000060
+
+Sample output :
+
+{
+    "code": true,
+    "message": "Item added successfully",
+    "cart_details": {
+        "cart_id": 20,
+        "items_count": 2,
+        "user_id": null,
+        "grand_total": 4597.0,
+        "currency": "en_IN",
+        "item_details": [
+            {
+                "sku": "SKDIKATBAG7483AW",
+                "base_price": 2999.0,
+                "name": "Yellow Cotton Straight Suit Set",
+                "description": "A gorgeous suit set from Biba casual wear collection. Do Not Bleach, Cold Iron.",
+                "item_qty": 1,
+                "product_image_url": "http://image.jpg"
+            },
+            {
+                "sku": "FTWWEONKLP000060",
+                "base_price": 799.0,
+                "name": "Yellow Formal Kolhapur Slipper",
+                "description": "Yellow Formal Kolhapur Slipper",
+                "item_qty": 2,
+                "product_image_url": "http://image2.jpg"
+            }
+        ]
+    }
+}
+
+
+
+
+Order details :
+
+* Creating order and sending mail : localhost:3000/api/v1/order?cart_id=20&email=test@gmail.com&customer_name=savitha&payment_mode=COD
+
+Sample output :
+
+{
+    "code": true,
+    "message": "Order created successfully",
+    "order_details": {
+        "order_id": 34,
+        "user_id": 1,
+        "grand_total": 4597.0,
+        "currency": "en_IN",
+        "status": "completed",
+        "order_item_details": [
+            {
+                "item_id": 31,
+                "sku": "SKDIKATBAG7483AW",
+                "item_name": "Yellow Cotton Straight Suit Set",
+                "description": "A gorgeous suit set from Biba casual wear collection. Do Not Bleach, Cold Iron.",
+                "base_price": 2999.0,
+                "product_image_url": "http://image.jpg",
+                "item_qty_details": [
+                    {
+                        "item_qty_id": 30,
+                        "item_status": "created",
+                        "final_price": 2999.0,
+                        "barcode": null
+                    }
+                ]
+            },
+            {
+                "item_id": 32,
+                "sku": "FTWWEONKLP000060",
+                "item_name": "Yellow Formal Kolhapur Slipper",
+                "description": "Yellow Formal Kolhapur Slipper",
+                "base_price": 799.0,
+                "product_image_url": "http://image2.jpg",
+                "item_qty_details": [
+                    {
+                        "item_qty_id": 31,
+                        "item_status": "created",
+                        "final_price": 799.0,
+                        "barcode": null
+                    },
+                    {
+                        "item_qty_id": 32,
+                        "item_status": "created",
+                        "final_price": 799.0,
+                        "barcode": null
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+* Order list of given time frame (taken as date range) : localhost:3000/api/v1/order/order_details?start_date=2021-09-25&end_date=2021-09-26
+
+Output : 
+{
+    "code": true,
+    "message": "Order details fetched successfully",
+    "order_details": {
+        "price_total": 16793.0,
+        "order_details": [
+            {
+                "order_id": 34,
+                "user_id": 1,
+                "grand_total": 4597.0,
+                "currency": "en_IN",
+                "status": "completed",
+                "order_item_details": [
+                    {
+                        "item_id": 31,
+                        "sku": "SKDIKATBAG7483AW",
+                        "item_name": "Yellow Cotton Straight Suit Set",
+                        "description": "A gorgeous suit set from Biba casual wear collection. Do Not Bleach, Cold Iron.",
+                        "base_price": 2999.0,
+                        "product_image_url": "http://image.jpg",
+                        "item_qty_details": [
+                            {
+                                "item_qty_id": 30,
+                                "item_status": "created",
+                                "final_price": 2999.0,
+                                "barcode": null
+                            }
+                        ]
+                    },
+                    {
+                        "item_id": 32,
+                        "sku": "FTWWEONKLP000060",
+                        "item_name": "Yellow Formal Kolhapur Slipper",
+                        "description": "Yellow Formal Kolhapur Slipper",
+                        "base_price": 799.0,
+                        "product_image_url": "http://image2.jpg",
+                        "item_qty_details": [
+                            {
+                                "item_qty_id": 31,
+                                "item_status": "created",
+                                "final_price": 799.0,
+                                "barcode": null
+                            },
+                            {
+                                "item_qty_id": 32,
+                                "item_status": "created",
+                                "final_price": 799.0,
+                                "barcode": null
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "order_id": 35,
+                "user_id": 19,
+                "grand_total": 12196.0,
+                "currency": "en_IN",
+                "status": "completed",
+                "order_item_details": [
+                    {
+                        "item_id": 33,
+                        "sku": "BFFYEONKLP000060",
+                        "item_name": "Off White Cotton Tiered Dress",
+                        "description": "Off White Cotton Tiered Dress",
+                        "base_price": 2799.0,
+                        "product_image_url": "http://image5.jpg",
+                        "item_qty_details": [
+                            {
+                                "item_qty_id": 33,
+                                "item_status": "created",
+                                "final_price": 2799.0,
+                                "barcode": null
+                            },
+                            {
+                                "item_qty_id": 34,
+                                "item_status": "created",
+                                "final_price": 2799.0,
+                                "barcode": null
+                            },
+                            {
+                                "item_qty_id": 35,
+                                "item_status": "created",
+                                "final_price": 2799.0,
+                                "barcode": null
+                            }
+                        ]
+                    },
+                    {
+                        "item_id": 34,
+                        "sku": "RE02EONKLP000060",
+                        "item_name": "Red Cotton Fusion Dress",
+                        "description": "Red Cotton Fusion Dress",
+                        "base_price": 3799.0,
+                        "product_image_url": "http://image7.jpg",
+                        "item_qty_details": [
+                            {
+                                "item_qty_id": 36,
+                                "item_status": "created",
+                                "final_price": 3799.0,
+                                "barcode": null
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+
+
